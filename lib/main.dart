@@ -11,7 +11,8 @@ class ClientPortalApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) => MaterialApp(
-        title: 'Client Portal',
+        debugShowCheckedModeBanner: false,
+        title: 'Metatech client portal',
         theme: ThemeManager.getTheme(context),
         onGenerateRoute: AppRouter.generateRoute,
         initialRoute: '/',

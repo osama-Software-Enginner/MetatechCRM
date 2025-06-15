@@ -20,7 +20,7 @@ class SplashScreen extends StatelessWidget {
         body: BlocListener<SplashBloc, SplashState>(
           listener: (context, state) {
             if (state is SplashCompleted) {
-              Navigator.pushReplacementNamed(context, '/home');
+              Navigator.pushReplacementNamed(context, '/login');
             }
           },
           child: Center(
@@ -39,7 +39,7 @@ class SplashScreen extends StatelessWidget {
                 ),
                 SizedBox(height: AppDimensions.spacingSmall(context)),
                 Text(
-                  'Welcome to your portal experience',
+                  'Welcome to your portal',
                   style: AppTextStyles.textTheme(context).bodySmall,
                 ),
               ],
