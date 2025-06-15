@@ -1,0 +1,13 @@
+# Flutter build
+build/
+.dart_tool/
+
+# macOS
+.DS_Store
+
+# IDE settings
+.idea/
+*.iml
+
+# Other
+.gitignore.lock
