@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fl_chart/fl_chart.dart';
 import '../../design_system/app_colors.dart';
 import '../../design_system/app_text_styles.dart';
 import '../../design_system/dimensions.dart';
@@ -37,7 +36,7 @@ class DashboardScreen extends StatelessWidget {
                 route: '/dashboard',
                 onTap: () {
                   Navigator.pop(context);
-                  context.read<DashboardBloc>().add(LoadDashboard()); // Refresh
+                  context.read<DashboardBloc>().add(LoadDashboard());
                 },
               ),
               DrawerItem(
@@ -90,14 +89,11 @@ class DashboardScreen extends StatelessWidget {
               }
               if (state is DashboardLoaded) {
                 final cards = [
-                  {'title': 'Ongoing Project','percent':'10','percentNumber':'20', 'route': '/profile'},
-                  {'title': 'Total Leads','percent':'10','percentNumber':'20', 'route': '/projects'},
-                  {'title': 'Active Campaigns','percent':'10','percentNumber':'20', 'route': '/projects'},
-                  {'title': 'Total Impression','percent':'10','percentNumber':'20', 'route': '/projects'},
+                  {'title': 'Ongoing Project', 'percent': '10', 'percentNumber': '20', 'route': '/profile'},
+                  {'title': 'Total Leads', 'percent': '10', 'percentNumber': '20', 'route': '/projects'},
+                  {'title': 'Active Campaigns', 'percent': '10', 'percentNumber': '20', 'route': '/projects'},
+                  {'title': 'Total Impression', 'percent': '10', 'percentNumber': '20', 'route': '/projects'},
                 ];
-
-                final int totalSections = 5;
-                final int completedSections = 2;
 
                 return SingleChildScrollView(
                   child: Column(
@@ -129,20 +125,37 @@ class DashboardScreen extends StatelessWidget {
                       SizedBox(height: AppDimensions.padding(context)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        children: List.generate(totalSections, (index) {
-                          final isCompleted = index < completedSections;
+                        children: state.sdlcStages.asMap().entries.map((entry) {
+                          final index = entry.key;
+                          final stage = entry.value;
+                          final isCompleted = stage['completed'] as bool;
                           return Expanded(
-                            child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 2.0),
-                              height: 10,
-                              decoration: BoxDecoration(
-                                color: isCompleted ? Colors.green : Colors.orange,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.symmetric(horizontal: AppDimensions.scale(context, 2.0)),
+                                  height: AppDimensions.scale(context, 10.0),
+                                  decoration: BoxDecoration(
+                                    color: isCompleted ? AppColors.success : AppColors.warning,
+                                    borderRadius: BorderRadius.circular(AppDimensions.scale(context, 5.0)),
+                                  ),
+                                ),
+                                SizedBox(height: AppDimensions.spacingSmall(context)),
+                                Text(
+                                  stage['name'],
+                                  style: AppTextStyles.textTheme(context).labelSmall?.copyWith(
+                                    color: AppColors.textPrimary,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
                             ),
                           );
-                        }),
+                        }).toList(),
                       ),
+
                     ],
                   ),
                 );
