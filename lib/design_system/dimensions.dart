@@ -29,7 +29,7 @@ class AppDimensions {
   // Icon Sizes
   static double iconSizeSmall(BuildContext context) => scale(context, 14);
   static double iconSize(BuildContext context) => scale(context, 40.0);
-  static double iconSizeLarge(BuildContext context) => scale(context, 60.0);
+  static double iconSizeLarge(BuildContext context) => scale(context, 90.0);
 
   // Elevation
   static double elevationLow(BuildContext context) => scale(context, 2.0);
