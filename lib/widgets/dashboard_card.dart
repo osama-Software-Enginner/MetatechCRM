@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+import 'package:auto_size_text/auto_size_text.dart';  // <--- Import added
+
 import '../design_system/app_colors.dart';
 import '../design_system/app_text_styles.dart';
 import '../design_system/dimensions.dart';
@@ -9,7 +10,6 @@ class DashboardCard extends StatelessWidget {
   final double percent;
   final double width;
   final double percentNumber;
-
   final VoidCallback onTap;
 
   const DashboardCard({
@@ -43,10 +43,13 @@ class DashboardCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            AutoSizeText(
               title,
               style: AppTextStyles.textTheme(context).titleSmall,
               textAlign: TextAlign.center,
+              maxLines: 1,
+              minFontSize: 10,
+              overflow: TextOverflow.ellipsis,
             ),
             SizedBox(height: AppDimensions.spacingSmall(context)),
             Text(

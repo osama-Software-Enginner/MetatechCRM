@@ -59,12 +59,13 @@ class LoginScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'Login',
+                            'Sign in Access',
                             style: AppTextStyles.textTheme(context).headlineSmall,
                           ),
                           SizedBox(height: AppDimensions.spacing(context)),
                           TextFormField(
                             controller: emailController,
+                            style: AppTextStyles.textTheme(context).bodySmall,
                             decoration: InputDecoration(
                               labelText: 'Email',
                               labelStyle: AppTextStyles.textTheme(context).labelSmall,
@@ -86,6 +87,8 @@ class LoginScreen extends StatelessWidget {
                           SizedBox(height: AppDimensions.spacingSmall(context)),
                           TextFormField(
                             controller: passwordController,
+                            style: AppTextStyles.textTheme(context).bodySmall,
+
                             decoration: InputDecoration(
                               labelText: 'Password',
                               labelStyle: AppTextStyles.textTheme(context).labelSmall,
@@ -112,7 +115,9 @@ class LoginScreen extends StatelessWidget {
                               }
                               return Column(
                                 children: [
+
                                   if (state is LoginFailure)
+
                                     Padding(
                                       padding: EdgeInsets.only(bottom: AppDimensions.spacingSmall(context)),
                                       child: Text(
@@ -122,8 +127,8 @@ class LoginScreen extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                  ElevatedButton(
-                                    onPressed: () {
+                                  TextButton(
+                                    onPressed: (){
                                       if (formKey.currentState!.validate()) {
                                         context.read<LoginBloc>().add(
                                           LoginSubmitted(
@@ -132,23 +137,10 @@ class LoginScreen extends StatelessWidget {
                                           ),
                                         );
                                       }
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: AppColors.brand,
-                                      foregroundColor: AppColors.surface,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(AppDimensions.buttonRadius(context)),
-                                      ),
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: AppDimensions.spacingSmall(context),
-                                        horizontal: AppDimensions.spacing(context),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      'Login',
-                                      style: AppTextStyles.textTheme(context).titleSmall,
-                                    ),
-                                  ),
+                                    }, child: Text(
+                                    'Login',
+                                    style: AppTextStyles.textTheme(context).titleSmall,
+                                  ),),
                                 ],
                               );
                             },

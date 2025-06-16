@@ -14,12 +14,12 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     emit(DashboardLoading());
     try {
       await Future.delayed(const Duration(seconds: 1)); // Simulate data fetch
-      final clientName = "John Doe";
+      final clientName = "Ali";
       final graphData = [
-        {"name": "Project A", "value": 75.0},
-        {"name": "Project B", "value": 50.0},
-        {"name": "Project C", "value": 90.0},
-        {"name": "Project D", "value": 30.0},
+        {"name": "Dubai", "value": 75.0},
+        {"name": "Sharjah", "value": 50.0},
+        {"name": "Abu Dhabi", "value": 90.0},
+        {"name": "RAK", "value": 30.0},
       ];
       final sdlcStages = [
         {"name": "Planning", "completed": true},
