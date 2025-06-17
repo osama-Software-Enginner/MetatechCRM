@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'design_system/theme_manager.dart';
 import 'core/navigation.dart';
 import 'firebase_options.dart';
+import 'features/dashboard/bloc/dashboard_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,8 +19,14 @@ class ClientPortalApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) => MaterialApp(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<DashboardBloc>(
+          create: (context) => DashboardBloc(),
+        ),
+        // Add more BLoCs here if needed
+      ],
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Metatech Client Portal',
         theme: ThemeManager.getTheme(context),
