@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'design_system/theme_manager.dart';
 import 'core/navigation.dart';
+import 'features/invoice/InvoiceScreen.dart';
+import 'features/support/bloc/chat_bloc.dart';
 import 'firebase_options.dart';
 import 'features/dashboard/bloc/dashboard_bloc.dart';
 
@@ -24,7 +26,12 @@ class ClientPortalApp extends StatelessWidget {
         BlocProvider<DashboardBloc>(
           create: (context) => DashboardBloc(),
         ),
-        // Add more BLoCs here if needed
+
+        BlocProvider(create: (_) => ChatBloc()),
+
+        BlocProvider<InvoiceBloc>( // ✅ Provide InvoiceBloc here
+          create: (context) => InvoiceBloc()..add(LoadInvoices()),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

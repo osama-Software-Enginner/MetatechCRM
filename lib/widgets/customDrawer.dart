@@ -28,11 +28,6 @@ class CustomDrawer extends StatelessWidget {
             route: '/profile',
           ),
           DrawerItem(
-            title: 'Projects',
-            icon: Icons.work_outline,
-            route: '/projects',
-          ),
-          DrawerItem(
             title: 'Invoices',
             icon: Icons.receipt_long,
             route: '/invoices',
