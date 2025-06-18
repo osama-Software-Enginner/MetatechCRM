@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_side_menu/flutter_side_menu.dart';
 import '../../design_system/app_colors.dart'; // Adjust path as needed
 import '../../widgets/drawer_item.dart';
 import '../features/dashboard/bloc/dashboard_bloc.dart';

@@ -19,6 +19,7 @@ dependencies:
   gap: ^3.0.1
   auto_size_text: ^3.0.0
   firebase_core: ^3.14.0
+  flutter_side_menu: ^0.5.41
 
 dev_dependencies:
   flutter_test:
