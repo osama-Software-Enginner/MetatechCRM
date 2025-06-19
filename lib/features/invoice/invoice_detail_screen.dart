@@ -17,7 +17,6 @@ class InvoiceDetailScreen extends StatelessWidget {
     final radius = AppDimensions.cardRadius(context);
 
     return Scaffold(
-      // appBar: AppBar(title: Text("Invoice ${invoice.id}")),
       appBar: AppBar(
         title: Text("Invoice ${invoice.id}"),
         actions: [
