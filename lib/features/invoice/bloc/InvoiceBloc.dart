@@ -1,29 +1,44 @@
-// Invoice BLoC
+// 📁 bloc/invoice_bloc.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import '../model/invoice.dart';
 import 'InvoiceEvent.dart';
 import 'InvoiceState.dart';
 
+
 class InvoiceBloc extends Bloc<InvoiceEvent, InvoiceState> {
-  InvoiceBloc() : super(InvoiceLoading()) {
-    on<LoadInvoices>(_onLoadInvoices);
-    on<AddInvoice>(_onAddInvoice);
-    on<DeleteInvoice>(_onDeleteInvoice);
-  }
+  InvoiceBloc() : super(InvoiceInitial()) {
+    on<LoadInvoices>((event, emit) {
+      emit(InvoiceLoading());
 
-  final List<Invoice> _invoices = [];
+      final invoices = [
+        Invoice(
+          id: 'INV842002',
+          status: 'Draft',
+          date: '27th Jul 2021',
+          taxRate: 5,
+          customerName: 'Kim Girocking',
+          customerAddress: '123 Main St, NY',
+          items: [
+            InvoiceItem(title: 'SEO', description: 'Instagram marketing', qty: 1, unit: 'Job', rate: 100.0),
+            InvoiceItem(title: 'Social Media Content', description: 'Instagram marketing', qty: 1, unit: 'Job', rate: 100.0),
+          ],
+        ),
+        Invoice(
+          id: 'INV842004',
+          status: 'Paid',
+          date: '25th Jul 2021',
+          taxRate: 5,
+          customerName: 'Jackson Balabala',
+          customerAddress: '456 Second Ave, LA',
+          items: [
+            InvoiceItem(title: 'SEO Audit', description: 'Instagram marketing', qty: 1, unit: 'Job', rate: 100.0),
 
-  void _onLoadInvoices(LoadInvoices event, Emitter<InvoiceState> emit) {
-    emit(InvoiceLoaded(_invoices));
-  }
+            InvoiceItem(title: 'Brand Audit', description: 'Audit + Analysis', qty: 2, unit: 'Job', rate: 100.0),
+          ],
+        ),
+      ];
 
-  void _onAddInvoice(AddInvoice event, Emitter<InvoiceState> emit) {
-    _invoices.add(event.invoice);
-    emit(InvoiceLoaded(_invoices));
-  }
-
-  void _onDeleteInvoice(DeleteInvoice event, Emitter<InvoiceState> emit) {
-    _invoices.removeWhere((invoice) => invoice.id == event.invoiceId);
-    emit(InvoiceLoaded(_invoices));
+      emit(InvoiceListLoaded(invoices));
+    });
   }
 }

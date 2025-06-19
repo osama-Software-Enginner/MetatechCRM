@@ -17,8 +17,6 @@ class AppRouter {
       case '/login':return MaterialPageRoute(builder: (_) => const LoginScreen());
       case '/home': return MaterialPageRoute(builder: (_) => DashboardScreen());
       case '/invoices': return MaterialPageRoute(builder: (_) => InvoiceListScreen());
-      case '/addInvoice':
-        return MaterialPageRoute(builder: (_) => const AddInvoiceScreen());
 
       case '/support':
         return MaterialPageRoute(
