@@ -19,12 +19,16 @@ class ProfileScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => ProfileBloc()..add(LoadProfile()),
       child: Scaffold(
-        appBar: CustomAppBar(),
-        drawer: CustomDrawer(),
-        body: CustomScrollView(
-          slivers: [
-            _buildSliverAppBar(context),
-            SliverToBoxAdapter(child: _buildProfileContent(context)),
+        body: Row(
+          children: [
+            const CustomDrawer(selectedRoute: '/profile'),
+            Expanded(child: CustomScrollView(
+              slivers: [
+                _buildSliverAppBar(context),
+                SliverToBoxAdapter(child: _buildProfileContent(context)),
+              ],
+            ),
+              ),
           ],
         ),
         floatingActionButton: BlocBuilder<ProfileBloc, ProfileState>(

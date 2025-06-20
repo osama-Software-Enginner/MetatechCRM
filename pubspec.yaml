@@ -22,6 +22,7 @@ dependencies:
   flutter_side_menu: ^0.5.41
   pdf: ^3.11.3
   printing: ^5.14.2
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:

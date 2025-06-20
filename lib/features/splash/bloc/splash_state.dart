@@ -12,3 +12,7 @@ class SplashInitial extends SplashState {}
 class SplashLoading extends SplashState {}
 
 class SplashCompleted extends SplashState {}
+
+class SplashNavigateToLogin extends SplashState {}
+
+class SplashNavigateToDashboard extends SplashState {}

@@ -19,8 +19,10 @@ class SplashScreen extends StatelessWidget {
         backgroundColor: AppColors.surface,
         body: BlocListener<SplashBloc, SplashState>(
           listener: (context, state) {
-            if (state is SplashCompleted) {
+            if (state is SplashNavigateToLogin) {
               Navigator.pushReplacementNamed(context, '/login');
+            }else if (state is SplashNavigateToDashboard) {
+              Navigator.pushReplacementNamed(context, '/dashboard');
             }
           },
           child: Center(

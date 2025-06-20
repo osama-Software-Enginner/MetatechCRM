@@ -39,9 +39,13 @@ class ChatHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CustomAppBar(),
-      drawer: CustomDrawer(),
-      body: const ChatListScreen(),
+
+      body: Row(
+        children: [
+          const CustomDrawer(selectedRoute: '/chatDetail'),
+          Expanded(child: const ChatListScreen(),),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF25D366),
         onPressed: () => _showCreateTicketForm(context),

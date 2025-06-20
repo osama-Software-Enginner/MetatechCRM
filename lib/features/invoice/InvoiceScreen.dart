@@ -18,114 +18,135 @@ class InvoiceListScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => InvoiceBloc()..add(LoadInvoices()),
       child: Scaffold(
-        appBar: CustomAppBar(),
-        drawer: CustomDrawer(),
-        body: BlocBuilder<InvoiceBloc, InvoiceState>(
-          builder: (context, state) {
-            if (state is InvoiceLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is InvoiceListLoaded) {
-              final invoices = state.invoices;
+        body: Row(
+          children: [
+            const CustomDrawer(selectedRoute: '/invoices'),
+            Expanded(
+              child: BlocBuilder<InvoiceBloc, InvoiceState>(
+                builder: (context, state) {
+                  if (state is InvoiceLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is InvoiceListLoaded) {
+                    final invoices = state.invoices;
 
-              return Padding(
-                padding: EdgeInsets.all(AppDimensions.padding(context)),
-                child: Column(
-                  children: [
-                    // Header Row
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        vertical: AppDimensions.paddingSmall(context),
-                        horizontal: AppDimensions.padding(context),
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.brand.shade50,
-                        borderRadius: BorderRadius.circular(AppDimensions.cardRadius(context)),
-                      ),
-                      child: Row(
+                    return Padding(
+                      padding: EdgeInsets.all(AppDimensions.padding(context)),
+                      child: Column(
                         children: [
-                          Expanded(
-                            child: Text('ID', style: Theme.of(context).textTheme.titleSmall),
+                          // Header Row
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              vertical: AppDimensions.paddingSmall(context),
+                              horizontal: AppDimensions.padding(context),
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.brand.shade50,
+                              borderRadius: BorderRadius.circular(AppDimensions.cardRadius(context)),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text('ID', style: Theme.of(context).textTheme.titleSmall),
+                                ),
+                                Expanded(
+                                  child: Text('Status', style: Theme.of(context).textTheme.titleSmall),
+                                ),
+                                Expanded(
+                                  child: Text('Date', style: Theme.of(context).textTheme.titleSmall),
+                                ),
+                                Expanded(
+                                  child: Text('Total', style: Theme.of(context).textTheme.titleSmall),
+                                ),
+                              ],
+                            ),
                           ),
+
+                          const SizedBox(height: 8),
+
+                          // Invoices List
                           Expanded(
-                            child: Text('Status', style: Theme.of(context).textTheme.titleSmall),
-                          ),
-                          Expanded(
-                            child: Text('Date', style: Theme.of(context).textTheme.titleSmall),
-                          ),
-                          Expanded(
-                            child: Text('Total', style: Theme.of(context).textTheme.titleSmall),
+                            child: ListView.builder(
+                              itemCount: invoices.length,
+                              itemBuilder: (context, index) {
+                                final invoice = invoices[index];
+
+                                return TweenAnimationBuilder<double>(
+                                  tween: Tween(begin: 0, end: 1),
+                                  duration: Duration(milliseconds: 400 + index * 100),
+                                  curve: Curves.easeOut,
+                                  builder: (context, value, child) {
+                                    return Opacity(
+                                      opacity: value,
+                                      child: Transform.translate(
+                                        offset: Offset(0, (1 - value) * 20),
+                                        child: child,
+                                      ),
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 6.0),
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.circular(AppDimensions.cardRadius(context)),
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => InvoiceDetailScreen(invoice: invoice),
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: AppDimensions.paddingSmall(context),
+                                          horizontal: AppDimensions.padding(context),
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: AppColors.surface,
+                                          borderRadius: BorderRadius.circular(AppDimensions.cardRadius(context)),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(invoice.id, style: Theme.of(context).textTheme.bodyMedium),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                invoice.status,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium
+                                                    ?.copyWith(color: AppColors.textSecondary),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Text(invoice.date, style: Theme.of(context).textTheme.bodyMedium),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                '\$${invoice.total.toStringAsFixed(2)}',
+                                                textAlign: TextAlign.right,
+                                                style: Theme.of(context).textTheme.bodyMedium,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ],
                       ),
-                    ),
-
-                    const SizedBox(height: 8),
-
-                    // Invoices List
-                    Expanded(
-                      child: ListView.separated(
-                        itemCount: invoices.length,
-                        separatorBuilder: (_, __) => Divider(color: AppColors.divider),
-                        itemBuilder: (context, index) {
-                          final invoice = invoices[index];
-                          return InkWell(
-                            borderRadius: BorderRadius.circular(AppDimensions.cardRadius(context)),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => InvoiceDetailScreen(invoice: invoice),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                vertical: AppDimensions.paddingSmall(context),
-                                horizontal: AppDimensions.padding(context),
-                              ),
-                              decoration: BoxDecoration(
-                                color: AppColors.surface,
-                                borderRadius: BorderRadius.circular(AppDimensions.cardRadius(context)),
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(invoice.id,
-                                        style: Theme.of(context).textTheme.bodyMedium),
-                                  ),
-                                  Expanded(
-                                    child: Text(invoice.status,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(color: AppColors.textSecondary)),
-                                  ),
-                                  Expanded(
-                                    child: Text(invoice.date,
-                                        style: Theme.of(context).textTheme.bodyMedium),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      '\$${invoice.total.toStringAsFixed(2)}',
-                                      style: Theme.of(context).textTheme.bodyMedium,
-                                      textAlign: TextAlign.right,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-
-                  ],
-                ),
-              );
-            } else {
-              return const Center(child: Text("No invoices available."));
-            }
-          },
+                    );
+                  } else {
+                    return const Center(child: Text("No invoices available."));
+                  }
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,53 +1,110 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_side_menu/flutter_side_menu.dart';
-import '../../design_system/app_colors.dart'; // Adjust path as needed
-import '../../widgets/drawer_item.dart';
-import '../features/dashboard/bloc/dashboard_bloc.dart';
-import '../features/dashboard/bloc/dashboard_event.dart'; // Adjust path as needed
+import '../../design_system/app_colors.dart';
+import '../../design_system/dimensions.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({super.key});
+  final String selectedRoute;
+
+  const CustomDrawer({
+    super.key,
+    this.selectedRoute = '/dashboard',
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
+    final drawerWidth = AppDimensions.scale(context, 50);
+    final iconSize = AppDimensions.iconSizeSmall(context);
+    final selectedSize = AppDimensions.scale(context, 40);
+    final unselectedSize = AppDimensions.scale(context, 30);
+    final padding = AppDimensions.paddingSmall(context);
+
+    final drawerItems = [
+      {'title': 'Dashboard', 'icon': Icons.dashboard, 'route': '/dashboard'},
+      {'title': 'Profile', 'icon': Icons.person, 'route': '/profile'},
+      {'title': 'Invoices', 'icon': Icons.receipt_long, 'route': '/invoices'},
+      {'title': 'Support', 'icon': Icons.support_agent, 'route': '/support'},
+    ];
+
+    return Container(
+      width: drawerWidth,
+      decoration: BoxDecoration(
+        color: AppColors.brand,
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(AppDimensions.cardRadius(context)),
+          bottomRight: Radius.circular(AppDimensions.cardRadius(context)),
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          DrawerItem(
-            title: 'Dashboard',
-            icon: Icons.dashboard,
-            route: '/dashboard',
-              onTap: () {
-                Navigator.pushReplacementNamed(context, '/dashboard');
-              }
+          // Logo + Icons
+          Column(
+            children: [
+              const SizedBox(height: 12),
+              Image.asset(
+                'assets/logo/webicon.png',
+                width: AppDimensions.iconSize(context),
+                height: AppDimensions.iconSize(context),
+              ),
+              const SizedBox(height: 12),
+
+              // Drawer Icons
+              Column(
+                children: drawerItems.map((item) {
+                  final isSelected = selectedRoute == item['route'];
+                  final size = isSelected ? selectedSize : unselectedSize;
+
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: padding),
+                    child: GestureDetector(
+                      onTap: () {
+                        if (ModalRoute.of(context)?.settings.name != item['route']) {
+                          Navigator.pushReplacementNamed(context, item['route'] as String);
+                        }
+                      },
+                      child: Container(
+                        width: size,
+                        height: size,
+                        decoration: BoxDecoration(
+                          color: isSelected ? Colors.white : Colors.transparent,
+                          borderRadius: BorderRadius.circular(
+                            AppDimensions.buttonRadius(context),
+                          ),
+                        ),
+                        child: Icon(
+                          item['icon'] as IconData,
+                          size: iconSize,
+                          color: isSelected
+                              ? AppColors.brand.shade700
+                              : Colors.white,
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
           ),
-          DrawerItem(
-            title: 'Profile',
-            icon: Icons.person,
-            route: '/profile',
-          ),
-          DrawerItem(
-            title: 'Invoices',
-            icon: Icons.receipt_long,
-            route: '/invoices',
-          ),
-          DrawerItem(
-            title: 'Support',
-            icon: Icons.support_agent,
-            route: '/support',
-          ),
-          DrawerItem(
-            title: 'Logout',
-            icon: Icons.logout,
-            route: '/login',
-            iconColor: AppColors.error,
-            textColor: AppColors.error,
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushReplacementNamed(context, '/login');
-            },
+
+          // Logout Button
+          Padding(
+            padding: EdgeInsets.only(bottom: padding * 2),
+            child: GestureDetector(
+              onTap: () => Navigator.pushReplacementNamed(context, '/login'),
+              child: Container(
+                width: unselectedSize,
+                height: unselectedSize,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                ),
+                child: Icon(
+                  Icons.logout,
+                  color: AppColors.error,
+                  size: iconSize,
+                ),
+              ),
+            ),
           ),
         ],
       ),
